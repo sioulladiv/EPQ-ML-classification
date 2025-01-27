@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import cv2
+from PIL import Image
 
 # Parameters
 image_dir = "Garbage classification"  # Directory containing the images
