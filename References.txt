@@ -1,0 +1,5 @@
+Main ideas for building MLP:
+https://medium.com/deep-learning-study-notes/multi-layer-perceptron-mlp-in-pytorch-21ea46d50e62
+
+preparing data:
+somewhere on stackoverflow
