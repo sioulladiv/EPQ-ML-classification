@@ -13,10 +13,8 @@ progress =[]
 
 class ImageDataset(Dataset):
     def __init__(self, csv_file):
-        # Load the CSV file into a Pandas DataFrame
         self.data = pd.read_csv(csv_file)
 
-        #Seperating features and labels
         self.features = self.data.iloc[:, :-1].values.astype('float32')
         self.labels = self.data.iloc[:, -1].values.astype('int64')
 
@@ -55,7 +53,6 @@ def plot_data(x,y):
     plt.plot([i[0] for i in progress],[i[1] for i in progress])
     plt.show()
 
-# Training function
 def train_model(model, dataloader, criterion, optimizer, epochs):
     losses = []
     fig, ax = plt.subplots()
@@ -67,11 +64,9 @@ def train_model(model, dataloader, criterion, optimizer, epochs):
         for inputs, labels in dataloader:
             inputs, labels = inputs.to(device), labels.to(device)
 
-            # Forward pass
             outputs = model(inputs)
             loss = criterion(outputs, labels)
 
-            # Backward pass and optimization
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
@@ -81,18 +76,17 @@ def train_model(model, dataloader, criterion, optimizer, epochs):
         epoch_loss = total_loss / len(dataloader)
         losses.append(epoch_loss)
         
-        # Update the plot
         ax.clear()
         ax.plot(range(1, len(losses) + 1), losses)
         ax.set_xlabel('Epoch')
         ax.set_ylabel('Loss')
         ax.set_title('Training Loss vs. Epoch')
         plt.draw()
-        plt.pause(0.001)  # Small pause to update the plot
+        plt.pause(0.001) 
         
         print(f"Epoch [{epoch + 1}/{epochs}], Loss: {epoch_loss:.4f}")
 
-    plt.ioff()  # Disable interactive mode after training
+    plt.ioff()  
 
 def evaluate_model(model, dataloader):
     model.eval()
@@ -110,10 +104,8 @@ def evaluate_model(model, dataloader):
     accuracy = 100 * correct / total
     print(f"Accuracy: {accuracy:.2f}%")
 
-# Main script
 if __name__ == "__main__":
-    # Configurations
-    csv_file = "pixel_data_512x384.csv" #csv with data for pixel values from images :)
+    csv_file = "pixel_data_512x384.csv"
     input_size = 36864 
     hidden_size = 64
     num_classes = 12  
@@ -128,17 +120,13 @@ if __name__ == "__main__":
     else:
         print("Using CPU")
 
-    # Load dataset and create DataLoader
     dataset = ImageDataset(csv_file)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
-    # Initialize model, criterion, and optimizer
     model = MLPClassifier(input_size, hidden_size, num_classes).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-    # Train the model
     train_model(model, dataloader, criterion, optimizer, epochs)
 
-    # Evaluate the model
     evaluate_model(model, dataloader)
