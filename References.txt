@@ -1,9 +1,0 @@
-Main ideas for building MLP:
-https://medium.com/deep-learning-study-notes/multi-layer-perceptron-mlp-in-pytorch-21ea46d50e62
-
-preparing data:
-somewhere on StackOverflow
-
-Dataset: https://www.kaggle.com/datasets/asdasdasasdas/garbage-classification
-contains  zero indexed files with all the image files and their respective category.
-
